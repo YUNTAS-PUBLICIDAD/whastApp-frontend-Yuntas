@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { io } from "socket.io-client";
-import MessageSender from "./MessageSender";
+import ProductDetailsMessageSender from "./ProductDetailsMessageSender";
 import "./Dashboard.css";
 
 const Dashboard = ({ user, onLogout }) => {
@@ -653,7 +653,7 @@ const Dashboard = ({ user, onLogout }) => {
           <div className="dashboard-column">
             {/* Envío de mensajes */}
             {connectionStatus.isConnected && (
-              <MessageSender
+              <ProductDetailsMessageSender
                 isConnected={connectionStatus.isConnected}
                 onMessageSent={handleMessageSent}
               />
