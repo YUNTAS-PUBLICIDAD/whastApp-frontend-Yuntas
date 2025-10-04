@@ -4,9 +4,9 @@ import './MessageSender.css';
 const ProductDetailsMessageSender = ({ isConnected, onMessageSent }) => {
     const [formData, setFormData] = useState({
       phone: '',
-      nombreProducto: '',
-      descripcion: '',
-      correo: '',
+      productName: '',
+      description: '',
+      email: '',
       imageData: '', // Nuevo campo para la imagen en base64
     });
   
@@ -27,7 +27,7 @@ const ProductDetailsMessageSender = ({ isConnected, onMessageSent }) => {
       }));
   
       // Generar preview en tiempo real
-      if (name === 'nombreProducto' || name === 'descripcion' || name === 'correo') {
+      if (name === 'productName' || name === 'description' || name === 'email') {
         generatePreview({
           ...formData,
           [name]: value
@@ -54,7 +54,7 @@ const ProductDetailsMessageSender = ({ isConnected, onMessageSent }) => {
   
     // Generar preview del mensaje
     const generatePreview = (data) => {
-      if (!data.nombreProducto || !data.descripcion || !data.correo) {
+      if (!data.productName || !data.description || !data.email) {
         setPreview('');
         return;
       }
@@ -65,15 +65,15 @@ const ProductDetailsMessageSender = ({ isConnected, onMessageSent }) => {
         Gracias por su interés en nuestros productos. A continuación, le proporcionamos los detalles del producto que ha consultado:
   
         📝 Producto Consultado:
-          • Nombre del Producto: ${data.nombreProducto}  
-          • Descripción: ${data.descripcion}  
+          • Nombre del Producto: ${data.productName}  
+          • Descripción: ${data.description}  
   
         📅 Fecha y Hora de Consulta:  
           • Fecha: ${new Date().toLocaleDateString('es-ES')}  
           • Hora: ${new Date().toLocaleTimeString('es-ES')}  
   
         📧 Información Adicional:  
-        Le informamos que en breve recibirá un correo electrónico a ${data.correo} con más detalles sobre el producto consultado. Le recomendamos revisar su bandeja de entrada.
+        Le informamos que en breve recibirá un correo electrónico a ${data.email} con más detalles sobre el producto consultado. Le recomendamos revisar su bandeja de entrada.
   
         Si tiene alguna otra consulta o desea más información, no dude en contactarnos.
   
@@ -143,9 +143,9 @@ const ProductDetailsMessageSender = ({ isConnected, onMessageSent }) => {
         // Limpiar formulario
         setFormData({
           phone: '',
-          nombreProducto: '',
-          descripcion: '',
-          correo: '',
+          productName: '',
+          description: '',
+          email: '',
           imageData: '',
         });
         setPreview('');
@@ -209,12 +209,12 @@ const ProductDetailsMessageSender = ({ isConnected, onMessageSent }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="correo">👨‍⚕️ Correo *</label>
+          <label htmlFor="email">📤 Correo *</label>
           <input
             type="email"
-            id="correo"
-            name="correo"
-            value={formData.correo}
+            id="email"
+            name="email"
+            value={formData.email}
             onChange={handleInputChange}
             placeholder="Correo electrónico"
             disabled={loading || !isConnected}
@@ -224,12 +224,12 @@ const ProductDetailsMessageSender = ({ isConnected, onMessageSent }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="nombreProducto">👨‍⚕️ Nombre del Producto *</label>
+          <label htmlFor="productName">⚙️ Nombre del Producto *</label>
           <input
             type="text"
-            id="nombreProducto"
-            name="nombreProducto"
-            value={formData.nombreProducto}
+            id="productName"
+            name="productName"
+            value={formData.productName}
             onChange={handleInputChange}
             placeholder="Nombre completo del producto"
             disabled={loading || !isConnected}
@@ -238,12 +238,12 @@ const ProductDetailsMessageSender = ({ isConnected, onMessageSent }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="descripcion">👨‍⚕️ Descripcion del Producto *</label>
+          <label htmlFor="description">📃 Descripcion del Producto *</label>
           <input
             type="text"
-            id="descripcion"
-            name="descripcion"
-            value={formData.descripcion}
+            id="description"
+            name="description"
+            value={formData.description}
             onChange={handleInputChange}
             placeholder="Descripción del producto"
             disabled={loading || !isConnected}
