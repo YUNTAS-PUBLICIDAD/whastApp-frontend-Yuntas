@@ -4,10 +4,8 @@ import './MessageSender.css';
 const ProductDetailsMessageSender = ({ isConnected, onMessageSent }) => {
     const [formData, setFormData] = useState({
       phone: '',
-      productName: '',
-      description: '',
-      email: '',
-      imageData: '', // Nuevo campo para la imagen en base64
+      caption: '',
+      imageData: '',
     });
   
     const [loading, setLoading] = useState(false);
@@ -27,7 +25,7 @@ const ProductDetailsMessageSender = ({ isConnected, onMessageSent }) => {
       }));
   
       // Generar preview en tiempo real
-      if (name === 'productName' || name === 'description' || name === 'email') {
+      if (name === 'caption') {
         generatePreview({
           ...formData,
           [name]: value
@@ -54,34 +52,12 @@ const ProductDetailsMessageSender = ({ isConnected, onMessageSent }) => {
   
     // Generar preview del mensaje
     const generatePreview = (data) => {
-      if (!data.productName || !data.description || !data.email) {
+      if (!data.caption) {
         setPreview('');
         return;
       }
   
-      setPreview(`
-        📢 Bienvenido a Yuntas Publicidad 📢
-  
-        Gracias por su interés en nuestros productos. A continuación, le proporcionamos los detalles del producto que ha consultado:
-  
-        📝 Producto Consultado:
-          • Nombre del Producto: ${data.productName}  
-          • Descripción: ${data.description}  
-  
-        📅 Fecha y Hora de Consulta:  
-          • Fecha: ${new Date().toLocaleDateString('es-ES')}  
-          • Hora: ${new Date().toLocaleTimeString('es-ES')}  
-  
-        📧 Información Adicional:  
-        Le informamos que en breve recibirá un correo electrónico a ${data.email} con más detalles sobre el producto consultado. Le recomendamos revisar su bandeja de entrada.
-  
-        Si tiene alguna otra consulta o desea más información, no dude en contactarnos.
-  
-        ¡Gracias por elegirnos!
-  
-        Atentamente,  
-        Yuntas Publicidad  
-      `);
+      setPreview(`${data.caption}`);
     };
   
     // Validar formulario
@@ -119,7 +95,7 @@ const ProductDetailsMessageSender = ({ isConnected, onMessageSent }) => {
       setSuccess('');
   
       try {
-        const response = await fetch(`${apiBaseUrl}/api/send-product-info`, {
+        const response = await fetch(`${apiBaseUrl}/api/send-image`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -143,9 +119,7 @@ const ProductDetailsMessageSender = ({ isConnected, onMessageSent }) => {
         // Limpiar formulario
         setFormData({
           phone: '',
-          productName: '',
-          description: '',
-          email: '',
+          caption: '',
           imageData: '',
         });
         setPreview('');
@@ -209,45 +183,16 @@ const ProductDetailsMessageSender = ({ isConnected, onMessageSent }) => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="email">📤 Correo *</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
+          <label htmlFor="caption">📃 Descripción del Producto *</label>
+          <textarea
+            id="caption"
+            name="caption"
+            value={formData.caption}
             onChange={handleInputChange}
-            placeholder="Correo electrónico"
+            placeholder="Escribe el mensaje con saltos de línea"
             disabled={loading || !isConnected}
             required
-          />
-          <small>Formato: correo@gmail.com</small>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="productName">⚙️ Nombre del Producto *</label>
-          <input
-            type="text"
-            id="productName"
-            name="productName"
-            value={formData.productName}
-            onChange={handleInputChange}
-            placeholder="Nombre completo del producto"
-            disabled={loading || !isConnected}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="description">📃 Descripcion del Producto *</label>
-          <input
-            type="text"
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleInputChange}
-            placeholder="Descripción del producto"
-            disabled={loading || !isConnected}
-            required
+            rows={6}
           />
         </div>
 
